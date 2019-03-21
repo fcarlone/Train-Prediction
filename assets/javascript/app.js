@@ -13,8 +13,8 @@ firebase.initializeApp(config);
 
 let database = firebase.database();
 
-let trainName = '';
-let destination = '';
+let trainName;
+let destination;
 let firstTrainTime;
 let frequency;
 let nextTrainArrival;
@@ -98,10 +98,12 @@ database.ref().on("child_added", function (childSnapshot) {
   let trainStats = getNextTrainTime(frequency, firstTrainTime);
   // console.log('trainStat', trainStats)
 
-
+  trainName = childSnapshot.val().trainName
   // Populate HTML train table
-  let newRow = $("<tr>").append(
-    $("<td>").text(childSnapshot.val().trainName),
+  let newRow = $("<tr>")
+  newRow.attr("data-train", trainName)
+  $(newRow).append(
+    $("<td>").text(trainName),
     $("<td>").text(childSnapshot.val().destination),
     $("<td>").text(childSnapshot.val().frequency),
     $("<td>").text(trainStats[1]),
@@ -127,14 +129,16 @@ const trainInterval = setInterval(function () {
       let trainStats = getNextTrainTime(frequency, firstTrainTime);
       console.log('trainStats', trainStats)
 
+      trainName = childSnapshot.val().trainName
       // Populate HTML train table
-      let newRow = $("<tr>").append(
-        $("<td>").text(childSnapshot.val().trainName),
+      let newRow = $("<tr>")
+      newRow.attr("data-train", trainName)
+      $(newRow).append(
+        $("<td>").text(trainName),
         $("<td>").text(childSnapshot.val().destination),
         $("<td>").text(childSnapshot.val().frequency),
-        $("<td>").text(trainStats[1]),
-        $("<td>").text(trainStats[0]),
-
+        $("<td>").html(trainStats[1]),
+        $("<td>").html(trainStats[0])
       );
       // Append the new row to the table
       $("#train-table > tbody").append(newRow);

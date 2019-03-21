@@ -22,31 +22,50 @@
 <body>
   <h1>Train Prediction</h1>
 
-  <!-- Header -->
+  <div class="app-content">
+    <!-- Header -->
 
-  <!-- Train Schedule Table -->
+    <!-- Train Schedule Table -->
+    <div class="card mb-4">
+      <div class="card-header">Current Train Schedule</div>
+      <div class="card-body">
+        <table class="table table-sm table-hover" id="train-table">
+          <thead>
+            <tr>
+              <th scope="col">Train Name</th>
+              <th scope="col">Destination</th>
+              <th scope="col">Frequency (min)</th>
+              <th scope="col">Next Arrival</th>
+              <th scope="col">Minutes Away</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-  <!-- Input New Train Information Form -->
-  <form>
-    <div class="form-group">
-      <label for="trainData">Train Name</label>
-      <input type="text" class="form-control" id="train-input" placeholder="Philly Express">
-    </div>
-    <div class="form-group">
-      <label for="trainData">Destination</label>
-      <input type="text" class="form-control" id="destination-input" placeholder="Philadelphia">
-    </div>
-    <div class="form-group">
-      <label for="trainData">First Train Time (HH:mm = military time)</label>
-      <input type="text" class="form-control" id="time-input" placeholder="15:30">
-    </div>
-    <div class="form-group">
-      <label for="trainData">Frequency (min)</label>
-      <input type="text" class="form-control" id="frequency-input" placeholder="45">
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-
+    <!-- Input New Train Information Form -->
+    <form>
+      <div class="form-group">
+        <label for="trainData">Train Name</label>
+        <input type="text" class="form-control" id="train-input" placeholder="Philly Express">
+      </div>
+      <div class="form-group">
+        <label for="trainData">Destination</label>
+        <input type="text" class="form-control" id="destination-input" placeholder="Philadelphia">
+      </div>
+      <div class="form-group">
+        <label for="trainData">First Train Time (HH:mm = military time)</label>
+        <input type="text" class="form-control" id="time-input" placeholder="15:30">
+      </div>
+      <div class="form-group">
+        <label for="trainData">Frequency (min)</label>
+        <input type="text" class="form-control" id="frequency-input" placeholder="45">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
   <!-- JavaScript -->
   <script src="assets/javascript/app.js"></script>
 </body>

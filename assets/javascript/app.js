@@ -97,8 +97,20 @@ database.ref().on("child_added", function (childSnapshot) {
   // Invoke getNextTrainTime function for each train
   let trainStats = getNextTrainTime(frequency, firstTrainTime);
   // console.log('trainStat', trainStats)
-
   trainName = childSnapshot.val().trainName
+
+  // Create Edit button
+  let editButton = $("<button>")
+  editButton.attr("data-train", trainName)
+  editButton.addClass("edit");
+  editButton.text("✓");
+  // Create Delete button
+  let deleteButton = $("<button>")
+  deleteButton.attr("data-train", trainName)
+  deleteButton.addClass("delete");
+  deleteButton.text("X");
+
+
   // Populate HTML train table
   let newRow = $("<tr>")
   newRow.attr("data-train", trainName)
@@ -108,8 +120,9 @@ database.ref().on("child_added", function (childSnapshot) {
     $("<td>").text(childSnapshot.val().frequency),
     $("<td>").text(trainStats[1]),
     $("<td>").text(trainStats[0]),
-
   );
+  $(newRow).append(editButton)
+  $(newRow).append(deleteButton)
   // Append the new row to the table
   $("#train-table > tbody").append(newRow);
 })
@@ -130,6 +143,17 @@ const trainInterval = setInterval(function () {
       console.log('trainStats', trainStats)
 
       trainName = childSnapshot.val().trainName
+      // Create Edit button
+      let editButton = $("<button>")
+      editButton.attr("data-train", trainName)
+      editButton.addClass("edit");
+      editButton.text("✓");
+      // Create Delete button
+      let deleteButton = $("<button>")
+      deleteButton.attr("data-train", trainName)
+      deleteButton.addClass("delete");
+      deleteButton.text("X");
+
       // Populate HTML train table
       let newRow = $("<tr>")
       newRow.attr("data-train", trainName)
@@ -137,13 +161,26 @@ const trainInterval = setInterval(function () {
         $("<td>").text(trainName),
         $("<td>").text(childSnapshot.val().destination),
         $("<td>").text(childSnapshot.val().frequency),
-        $("<td>").html(trainStats[1]),
-        $("<td>").html(trainStats[0])
+        $("<td>").text(trainStats[1]),
+        $("<td>").text(trainStats[0])
       );
+      $(newRow).append(editButton)
+      $(newRow).append(deleteButton)
       // Append the new row to the table
       $("#train-table > tbody").append(newRow);
     })
   })
 }, 15000)
+
+// on-click event to delete train
+$(document).on("click", ".delete", function (event) {
+  event.preventDefault();
+  let state = $(this).attr("data-train")
+  console.log('state', state);
+  // Remove train from HTML
+  $(this).parent().remove();
+
+  // Remove train from Firebase database
+});
 
 

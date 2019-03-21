@@ -20,10 +20,14 @@
 </head>
 
 <body>
-  <h1>Train Prediction</h1>
 
   <div class="app-content">
     <!-- Header -->
+    <div class="jumbotron">
+      <h1 class="display-4">Train Schedule</h1>
+      <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to
+        featured content or information.</p>
+    </div>
 
     <!-- Train Schedule Table -->
     <div class="card mb-4">
@@ -49,19 +53,19 @@
     <form>
       <div class="form-group">
         <label for="trainData">Train Name</label>
-        <input type="text" class="form-control" id="train-input" placeholder="Philly Express">
+        <input type="text" class="form-control" id="train-input">
       </div>
       <div class="form-group">
         <label for="trainData">Destination</label>
-        <input type="text" class="form-control" id="destination-input" placeholder="Philadelphia">
+        <input type="text" class="form-control" id="destination-input">
       </div>
       <div class="form-group">
         <label for="trainData">First Train Time (HH:mm = military time)</label>
-        <input type="text" class="form-control" id="time-input" placeholder="15:30">
+        <input type="text" class="form-control" id="time-input">
       </div>
       <div class="form-group">
         <label for="trainData">Frequency (min)</label>
-        <input type="text" class="form-control" id="frequency-input" placeholder="45">
+        <input type="text" class="form-control" id="frequency-input">
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>

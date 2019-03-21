@@ -13,8 +13,8 @@ firebase.initializeApp(config);
 
 let database = firebase.database();
 
-let trainName;
-let destination;
+let trainName = '';
+let destination = '';
 let firstTrainTime;
 let frequency;
 let nextTrainArrival;
@@ -40,20 +40,22 @@ $(".btn").on("click", function (event) {
     firstTrainTime: firstTrainTime,
     frequency: frequency,
   }
+  console.log('trainData', trainData)
   // Push input values to Firebase database
   database.ref().push(trainData)
 
   // Reset input fields to blanks
-  $("#train-input").text(" ");
-  $("#destination-input").text(" ");
-  $("#time-input").text(" ");
-  $("#frequency-input").text(" ");
+  trainData = {};
+  $("#train-input").val(" ");
+  $("#destination-input").val(" ");
+  $("#time-input").val(" ");
+  $("#frequency-input").val(" ");
 });
 
 
 const getNextTrainTime = (frequency, firstTrainTime) => {
   // Store "Next Arrival" and "Minutes Away" values in an array
-  let trainData = [];
+  let trainArray = [];
 
   let tFrequency = frequency;
 
@@ -74,35 +76,36 @@ const getNextTrainTime = (frequency, firstTrainTime) => {
 
   // Minuets Away
   let tMinutesTillNextTrain = tFrequency - tRemainder;
-  trainData.push(tMinutesTillNextTrain)
+  trainArray.push(tMinutesTillNextTrain)
   // nextTrainMinutesAway = tMinutesTillNextTrain;
-  console.log(`Minutes untill next train: ${tMinutesTillNextTrain}`)
+  // console.log(`Minutes untill next train: ${tMinutesTillNextTrain}`)
 
   // Next Train
   let nextTrain = moment().add(tMinutesTillNextTrain, "minutes");
   nextTrainArrival = moment(nextTrain).format("hh:mm")
-  trainData.push(nextTrainArrival)
-  console.log(`Arrival Time: ${moment(nextTrain).format("hh:mm")}`)
+  trainArray.push(nextTrainArrival)
+  // console.log(`Arrival Time: ${moment(nextTrain).format("hh:mm")}`)
 
-  return trainData;
+  return trainArray;
 }
 
 // Firebase watcher - check when new train data is added
 database.ref().on("child_added", function (childSnapshot) {
-  console.log(childSnapshot.val())
+  // console.log(childSnapshot.val())
   frequency = childSnapshot.val().frequency;
   firstTrainTime = childSnapshot.val().firstTrainTime;
   // Invoke getNextTrainTime function for each train
-  let trainStat = getNextTrainTime(frequency, firstTrainTime);
-  console.log('trainStat', trainStat)
+  let trainStats = getNextTrainTime(frequency, firstTrainTime);
+  // console.log('trainStat', trainStats)
+
 
   // Populate HTML train table
   let newRow = $("<tr>").append(
     $("<td>").text(childSnapshot.val().trainName),
     $("<td>").text(childSnapshot.val().destination),
     $("<td>").text(childSnapshot.val().frequency),
-    $("<td>").text(trainStat[1]),
-    $("<td>").text(trainStat[0]),
+    $("<td>").text(trainStats[1]),
+    $("<td>").text(trainStats[0]),
 
   );
   // Append the new row to the table
@@ -111,26 +114,26 @@ database.ref().on("child_added", function (childSnapshot) {
 
 // Update train schedule table every minute
 const trainInterval = setInterval(function () {
-  $("tbody").empty();
+  $("#train-table > tbody").empty();
   database.ref().on("value", function (snapshot) {
+    $("tbody").empty();
     snapshot.forEach((childSnapshot) => {
-      console.log('trainInterval', childSnapshot.val())
-
+      // console.log('trainInterval', childSnapshot.val())
 
       // Populate HTML Train Schedule Table
       frequency = childSnapshot.val().frequency;
       firstTrainTime = childSnapshot.val().firstTrainTime;
       // Invoke getNextTrainTime function for each train
-      let trainStat = getNextTrainTime(frequency, firstTrainTime);
-      console.log('trainStat', trainStat)
+      let trainStats = getNextTrainTime(frequency, firstTrainTime);
+      console.log('trainStats', trainStats)
 
       // Populate HTML train table
       let newRow = $("<tr>").append(
         $("<td>").text(childSnapshot.val().trainName),
         $("<td>").text(childSnapshot.val().destination),
         $("<td>").text(childSnapshot.val().frequency),
-        $("<td>").text(trainStat[1]),
-        $("<td>").text(trainStat[0]),
+        $("<td>").text(trainStats[1]),
+        $("<td>").text(trainStats[0]),
 
       );
       // Append the new row to the table

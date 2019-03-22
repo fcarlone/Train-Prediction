@@ -188,19 +188,20 @@ $(document).on("click", ".delete-btn", function (event) {
   // Remove train from HTML
   $(this).parent().remove();
 
-  // Remove train from Firebase database
-  database.ref().on("value", function (snapshot) {
-    // Get Key Reference for trainName to remove
-    snapshot.forEach((childSnapshot) => {
-      let key = childSnapshot.key;
-      let childData = childSnapshot.val();
-      if (childData.trainName === state) {
-        console.log(`key of train being deleted: ${key}`)
-        // Firbase remove method - delete train from Firebase database
-        database.ref(`${key}`).remove()
-      }
-    });
-  });
+  // Remove train from Firebase database function
+  removeFirebaseData(state)
+  // database.ref().on("value", function (snapshot) {
+  //   // Get Key Reference for trainName to remove
+  //   snapshot.forEach((childSnapshot) => {
+  //     let key = childSnapshot.key;
+  //     let childData = childSnapshot.val();
+  //     if (childData.trainName === state) {
+  //       console.log(`key of train being deleted: ${key}`)
+  //       // Firbase remove method - delete train from Firebase database
+  //       database.ref(`${key}`).remove()
+  //     }
+  //   });
+  // });
 });
 
 $(document).on("click", ".edit-btn", function (event) {
@@ -270,7 +271,25 @@ const confirmEditBtn = (state) => {
             frequency: frequencyEdit
           })
         };
+
       })
+      removeFirebaseData(state)
     })
   })
+};
+
+// Remove train data from Firebase Database 
+const removeFirebaseData = (state) => {
+  database.ref().on("value", function (snapshot) {
+    // Get Key Reference for trainName to remove
+    snapshot.forEach((childSnapshot) => {
+      let key = childSnapshot.key;
+      let childData = childSnapshot.val();
+      if (childData.trainName === state) {
+        console.log(`key of train being deleted: ${key}`)
+        // Firbase remove method - delete train from Firebase database
+        database.ref(`${key}`).remove()
+      }
+    });
+  });
 };

@@ -10,7 +10,6 @@ var config = {
 firebase.initializeApp(config);
 
 // Global variables
-
 let database = firebase.database();
 
 let trainName;
@@ -20,6 +19,15 @@ let frequency;
 let nextTrainArrival;
 let nextTrainMinutesAway;
 
+let trainNameEdit;
+let destinationEdit;
+let firstTrainTimeEdit;
+let frequencyEdit;
+
+
+// Initial setup
+$("#confirm-edit-btn").hide()
+$("#cancel-edit-btn").hide()
 // Current Time
 let currentTimeGlobal = moment().format("MMM, DD, YYYY - HH:mm");
 console.log('currentTimeGlobal', currentTimeGlobal)
@@ -215,21 +223,54 @@ $(document).on("click", ".edit-btn", function (event) {
         console.log(childSnapshot.val().firstTrainTime)
         console.log(childSnapshot.val().frequency)
 
-        let trainNameEdit = childSnapshot.val().trainName
-        let destinationEdit = childSnapshot.val().destination
-        let firstTrainNameEdit = childSnapshot.val().firstTrainTime
-        let frequencyEdit = childSnapshot.val().frequency
+        trainNameEdit = childSnapshot.val().trainName
+        destinationEdit = childSnapshot.val().destination
+        firstTrainTimeEdit = childSnapshot.val().firstTrainTime
+        frequencyEdit = childSnapshot.val().frequency
 
         // Popluate train form for editing
         $("#train-input").val(trainNameEdit)
         $("#destination-input").val(destinationEdit)
-        $("#time-input").val(firstTrainNameEdit)
+        $("#time-input").val(firstTrainTimeEdit)
         $("#frequency-input").val(frequencyEdit)
-
-
       }
     });
   });
+  // Hide submit button
+  $("#submit-btn").remove()
+  // Show edit buttons
+  $("#confirm-edit-btn").show()
+  $("#cancel-edit-btn").show()
+  // Invoke confirmEditBtn function
+  confirmEditBtn(state)
+});
 
-})
+// on-click event Confirm Edit Button function
+const confirmEditBtn = (state) => {
+  console.log('update state', state)
+  $(document).on("click", "#confirm-edit-btn", function (event) {
+    event.preventDefault();
+    console.log('click confirm edit button')
 
+    // Update Firebase database
+    // Get train schedule info from Firebase
+    database.ref().on("value", function (snapshot) {
+      console.log(snapshot.val())
+      snapshot.forEach((childSnapshot) => {
+        let key = childSnapshot.key;
+        console.log('update-key', key)
+        console.log(childSnapshot.val().trainName)
+        let childData = childSnapshot.val()
+        if (childData.trainName === state) {
+          // Update Firebase database
+          database.ref(`${key}`).update({
+            trainName: trainNameEdit,
+            destination: destinationEdit,
+            firstTrainTime: firstTrainTimeEdit,
+            frequency: frequencyEdit
+          })
+        };
+      })
+    })
+  })
+};

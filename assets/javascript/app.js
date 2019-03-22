@@ -107,7 +107,7 @@ database.ref().on("child_added", function (childSnapshot) {
   // Create Delete button
   let deleteButton = $("<button>")
   deleteButton.attr("data-train", trainName)
-  deleteButton.addClass("delete");
+  deleteButton.addClass("delete-btn");
   deleteButton.text("X");
 
 
@@ -140,7 +140,6 @@ const trainInterval = setInterval(function () {
       firstTrainTime = childSnapshot.val().firstTrainTime;
       // Invoke getNextTrainTime function for each train
       let trainStats = getNextTrainTime(frequency, firstTrainTime);
-      console.log('trainStats', trainStats)
 
       trainName = childSnapshot.val().trainName
       // Create Edit button
@@ -151,7 +150,7 @@ const trainInterval = setInterval(function () {
       // Create Delete button
       let deleteButton = $("<button>")
       deleteButton.attr("data-train", trainName)
-      deleteButton.addClass("delete");
+      deleteButton.addClass("delete-btn");
       deleteButton.text("X");
 
       // Populate HTML train table
@@ -173,14 +172,29 @@ const trainInterval = setInterval(function () {
 }, 15000)
 
 // on-click event to delete train
-$(document).on("click", ".delete", function (event) {
+$(document).on("click", ".delete-btn", function (event) {
   event.preventDefault();
+  // Get train data-attribute value
   let state = $(this).attr("data-train")
-  console.log('state', state);
+  console.log('state: ', state);
   // Remove train from HTML
   $(this).parent().remove();
 
   // Remove train from Firebase database
+  database.ref().on("value", function (snapshot) {
+    // Get Key Reference for trainName to remove
+    snapshot.forEach((childSnapshot) => {
+      let key = childSnapshot.key;
+      let childData = childSnapshot.val();
+      if (childData.trainName === state) {
+        console.log(`key of train being deleted: ${key}`)
+        // Firbase remove method - delete train from Firebase database
+        database.ref(`${key}`).remove()
+      }
+    });
+  });
+
+
 });
 
 

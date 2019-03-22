@@ -200,5 +200,36 @@ $(document).on("click", ".edit-btn", function (event) {
   console.log("click edit");
   let state = $(this).attr("data-train")
   console.log(state)
+
+  // Get train schedule info from Firebase
+  database.ref().on("value", function (snapshot) {
+    // Get Key Reference for trainName to remove
+    snapshot.forEach((childSnapshot) => {
+      let key = childSnapshot.key;
+      let childData = childSnapshot.val();
+      if (childData.trainName === state) {
+        console.log(`key of train being edited: ${key}`)
+        // train data from Firebase database
+        console.log(childSnapshot.val().trainName)
+        console.log(childSnapshot.val().destination)
+        console.log(childSnapshot.val().firstTrainTime)
+        console.log(childSnapshot.val().frequency)
+
+        let trainNameEdit = childSnapshot.val().trainName
+        let destinationEdit = childSnapshot.val().destination
+        let firstTrainNameEdit = childSnapshot.val().firstTrainTime
+        let frequencyEdit = childSnapshot.val().frequency
+
+        // Popluate train form for editing
+        $("#train-input").val(trainNameEdit)
+        $("#destination-input").val(destinationEdit)
+        $("#time-input").val(firstTrainNameEdit)
+        $("#frequency-input").val(frequencyEdit)
+
+
+      }
+    });
+  });
+
 })
 

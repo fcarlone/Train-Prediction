@@ -102,7 +102,7 @@ database.ref().on("child_added", function (childSnapshot) {
   // Create Edit button
   let editButton = $("<button>")
   editButton.attr("data-train", trainName)
-  editButton.addClass("edit");
+  editButton.addClass("edit-btn");
   editButton.text("✓");
   // Create Delete button
   let deleteButton = $("<button>")
@@ -145,7 +145,7 @@ const trainInterval = setInterval(function () {
       // Create Edit button
       let editButton = $("<button>")
       editButton.attr("data-train", trainName)
-      editButton.addClass("edit");
+      editButton.addClass("edit-btn");
       editButton.text("✓");
       // Create Delete button
       let deleteButton = $("<button>")
@@ -193,8 +193,12 @@ $(document).on("click", ".delete-btn", function (event) {
       }
     });
   });
-
-
 });
 
+$(document).on("click", ".edit-btn", function (event) {
+  event.preventDefault();
+  console.log("click edit");
+  let state = $(this).attr("data-train")
+  console.log(state)
+})
 

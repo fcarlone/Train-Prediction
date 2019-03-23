@@ -238,10 +238,9 @@ $(document).on("click", ".edit-btn", function (event) {
     });
   });
   // Hide submit button
-  $("#submit-btn").remove()
+  $("#submit-btn").hide()
   // Show edit buttons
   $("#confirm-edit-btn").show()
-  $("#cancel-edit-btn").show()
   // Invoke confirmEditBtn function
   confirmEditBtn(state)
 });
@@ -271,10 +270,13 @@ const confirmEditBtn = (state) => {
             frequency: frequencyEdit
           })
         };
-
       })
       removeFirebaseData(state)
     })
+    // Hide submit button
+    $("#confirm-edit-btn").hide()
+    // Show edit buttons
+    $("#submit-btn").show()
   })
 };
 

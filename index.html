@@ -42,7 +42,6 @@
               <th scope="col">Next Arrival</th>
               <th scope="col">Minutes Away</th>
               <th scope="col">Edit | Delete</th>
-
             </tr>
           </thead>
           <tbody>
@@ -54,20 +53,24 @@
     <!-- Input New Train Information Form -->
     <form>
       <div class="form-group">
-        <label for="trainData">Train Name</label>
+        <label for="trainData">Train Name (minimum 5 characters)</label>
         <input type="text" class="form-control" id="train-input">
+        <p class="validateMessage1"></p>
       </div>
       <div class="form-group">
-        <label for="trainData">Destination</label>
+        <label for="trainData">Destination (minimum 4 characters)</label>
         <input type="text" class="form-control" id="destination-input">
+        <p class="validateMessage2"></p>
       </div>
       <div class="form-group">
         <label for="trainData">First Train Time (HH:mm = military time)</label>
         <input type="text" class="form-control" id="time-input">
+        <p class="validateMessage3"></p>
       </div>
       <div class="form-group">
         <label for="trainData">Frequency (min)</label>
         <input type="text" class="form-control" id="frequency-input">
+        <p class="validateMessage4"></p>
       </div>
       <button type="submit" id="submit-btn" class="btn btn-primary">Submit</button>
       <button type="submit" id="confirm-edit-btn" class="btn btn-warning">Submit Edit</button>

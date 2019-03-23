@@ -33,13 +33,53 @@ let currentTimeGlobal = moment().format("MMM, DD, YYYY - HH:mm");
 console.log('currentTimeGlobal', currentTimeGlobal)
 
 // on-click event to retrieve input data
-$(".btn").on("click", function (event) {
+$("#submit-btn").on("click", function (event) {
   event.preventDefault();
+  $(".validateMessage1").text(" ");
+  $(".validateMessage2").text(" ");
+  $(".validateMessage3").text(" ");
+  $(".validateMessage4").text(" ");
 
   trainName = $("#train-input").val().trim();
   destination = $("#destination-input").val().trim();
   firstTrainTime = $("#time-input").val().trim();
   frequency = $("#frequency-input").val().trim();
+
+  // Validate input data
+  if (trainName === '') {
+    console.log("train-input Blank")
+    $(".validateMessage1").append("<p>").text("Field cannot be blank");
+    return false;
+  } else if (trainName.length < 5) {
+    $(".validateMessage1").append("<p>").text("Field must be at least 5 characters");
+    return false;
+  }
+  if (destination === '') {
+    console.log("train-input Blank")
+    $(".validateMessage2").text("Field cannot be blank");
+    return false;
+  } else if (destination.length < 4) {
+    $(".validateMessage2").text("Field must be at least 4 characters")
+    return false;
+  }
+  if (firstTrainTime === '') {
+    $(".validateMessage3").text("Field cannot be blank")
+    return false;
+  }
+  let validateTrainTime = firstTrainTime.split(":")
+  console.log(validateTrainTime)
+  if (validateTrainTime[0] > 24 || validateTrainTime[1] > 60 || firstTrainTime.length !== 5) {
+    console.log("too large")
+    $(".validateMessage3").text("Invalid format")
+    return false;
+  }
+  if (frequency === '') {
+    $(".validateMessage4").text("Field cannot be blank")
+    return false;
+  } else if (frequency <= 0 || frequency > 60) {
+    $(".validateMessage4").text("Field cannot be blank")
+    return false;
+  };
 
   // Save input values for storing to Firebase database
   let trainData = {

@@ -13,3 +13,8 @@
   color: white;
   margin-left: 7px;
 }
+
+.jumbotron {
+  padding-top: .75rem !important;
+  padding-bottom: .2rem !important;
+}

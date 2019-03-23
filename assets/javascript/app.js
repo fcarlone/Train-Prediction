@@ -24,6 +24,7 @@ let destinationEdit;
 let firstTrainTimeEdit;
 let frequencyEdit;
 
+let counter = 60;
 
 // Initial setup
 $("#confirm-edit-btn").hide()
@@ -173,7 +174,17 @@ database.ref().on("child_added", function (childSnapshot) {
   $(newRow).append(deleteButton)
   // Append the new row to the table
   $("#train-table > tbody").append(newRow);
-})
+});
+
+
+
+setInterval(function () {
+  counter--
+  if (counter === 0) {
+    counter = 60
+  }
+  $(".counter").html("<p>").append(`Seconds left until next train schedule update: ${counter}`)
+}, 1000)
 
 // Update train schedule table every minute
 const trainInterval = setInterval(function () {
@@ -217,7 +228,7 @@ const trainInterval = setInterval(function () {
       $("#train-table > tbody").append(newRow);
     })
   })
-}, 15000)
+}, 60000)
 
 // on-click event to delete train
 $(document).on("click", ".delete-btn", function (event) {

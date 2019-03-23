@@ -17,4 +17,17 @@
 .jumbotron {
   padding-top: .75rem !important;
   padding-bottom: .2rem !important;
+  text-align: center !important;
+}
+
+.counter {
+  color: rgb(90, 77, 77);
+  text-align: right;
+}
+
+.validateMessage1,
+.validateMessage2,
+.validateMessage3,
+.validateMessage4 {
+  color: red;
 }

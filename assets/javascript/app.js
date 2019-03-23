@@ -69,8 +69,7 @@ $("#submit-btn").on("click", function (event) {
   }
   let validateTrainTime = firstTrainTime.split(":")
   console.log(validateTrainTime)
-  if (validateTrainTime[0] > 24 || validateTrainTime[1] > 60 || firstTrainTime.length !== 5) {
-    console.log("too large")
+  if (validateTrainTime[0] > 24 || validateTrainTime[1] > 60 || firstTrainTime.length !== 5 || (validateTrainTime[0] === 24 && validateTrainTime[1] > 0)) {
     $(".validateMessage3").text("Invalid format")
     return false;
   }

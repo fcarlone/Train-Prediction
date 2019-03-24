@@ -309,22 +309,28 @@ const confirmEditBtn = (key) => {
       frequencyEdit
     )
 
-    return database.ref(`${key}`).update({
+    database.ref(`${key}`).update({
       trainName: trainNameEdit,
       destination: destinationEdit,
       firstTrainTime: firstTrainTimeEdit,
       frequency: frequencyEdit
     })
+    // Hide submit button
+    $("#confirm-edit-btn").hide()
+    // Show edit buttons
+    $("#submit-btn").show()
 
-    /* database.ref().on("child_changed", function (snapshot) {
-      console.log(snapshot.val())
-    }) */
+    // Reset input fields to blanks
+    trainData = {};
+    $("#train-input").val(" ");
+    $("#destination-input").val(" ");
+    $("#time-input").val(" ");
+    $("#frequency-input").val(" ");
+  })
+  database.ref().on("child_changed", function (snapshot) {
+    console.log(snapshot.val())
   })
 
-  // Hide submit button
-  // $("#confirm-edit-btn").hide()
-  // Show edit buttons
-  // $("#submit-btn").show()
 };
 
 
@@ -343,3 +349,9 @@ const removeFirebaseData = (state) => {
     });
   });
 };
+
+// Update on child_changed 
+// database.ref().on("child_changed", function (childSnapshot) {
+//   console.log(childSnapshot.val())
+
+// });

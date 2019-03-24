@@ -99,6 +99,11 @@ $("#submit-btn").on("click", function (event) {
   $("#destination-input").val(" ");
   $("#time-input").val(" ");
   $("#frequency-input").val(" ");
+
+  // scroll to train schedule
+  $("html, body").animate({
+    scrollTop: $(".card-header").offset().top
+  }, 1000);
 });
 
 
@@ -238,7 +243,10 @@ $(document).on("click", ".delete-btn", function (event) {
   console.log('state: ', state);
   // Remove train from HTML
   $(this).parent().remove();
-
+  // scroll to train schedule
+  $("html, body").animate({
+    scrollTop: $(".card-header").offset().top
+  }, 1000);
   // Remove train from Firebase database function
   removeFirebaseData(state)
 });
@@ -253,6 +261,12 @@ $(document).on("click", ".edit-btn", function (event) {
   let state = $(this).attr("data-train")
   console.log(state)
   let key;
+
+  // scroll to form 
+  $("html, body").animate({
+    scrollTop: $(".form-group").offset().top
+  }, 1000);
+
 
   // Get train schedule info from Firebase
   database.ref().on("value", function (snapshot) {

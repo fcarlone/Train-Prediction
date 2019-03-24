@@ -16,7 +16,7 @@
   border-radius: 6px;
 }
 
-.jumbotron {
+.header-container {
   padding-top: .75rem !important;
   padding-bottom: .2rem !important;
   text-align: center !important;
@@ -24,6 +24,11 @@
   margin: auto;
   background-color: #557A95 !important;
   color: white !important;
+  font-family: 'Raleway', sans-serif;
+}
+
+.header-title {
+  font-family: 'Roboto', sans-serif;
 }
 
 .counter {
@@ -32,15 +37,22 @@
   width: 400px;
   margin-left: 550px;
   background-color: white;
+  font-family: 'Roboto', sans-serif;
 }
 
 .card-header,
 .card-body {
   font-size: .9rem;
+  font-family: 'Heebo', sans-serif;
+}
+
+.card-header {
+  font-weight: bolder;
+  font-size: 1.1rem
 }
 
 form {
-  border: lightgray solid 3px;
+  border: lightgray solid 1px;
   font-size: .8rem;
   margin-left: 50px;
   margin-right: 50px;

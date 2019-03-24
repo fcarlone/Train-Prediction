@@ -25,6 +25,7 @@ let firstTrainTimeEdit;
 let frequencyEdit;
 
 let counter = 60;
+let oldAttribute;
 
 // Initial setup
 $("#confirm-edit-btn").hide()
@@ -280,8 +281,10 @@ $(document).on("click", ".edit-btn", function (event) {
         $("#frequency-input").val(frequencyEdit)
 
         // Invoke confirmEditBtn function
-        console.log('####confirm edit button', key)
+        console.log('####confirm edit button', key, state)
         confirmEditBtn(key)
+        oldAttribute = state
+
       }
     });
   });
@@ -295,6 +298,12 @@ const confirmEditBtn = (key) => {
     event.preventDefault()
 
     console.log('confirm edit update key', key)
+    console.log('oldAttribute', oldAttribute)
+
+    // remove orginal edited row form HTML
+    // let test = $('[data-train="oldAttribute"]')
+    $('td[data-train="oldAttribute"]').remove()
+    // console.log('test', test)
 
     // Get edited values
     trainNameEdit = $("#train-input").val().trim();
@@ -330,9 +339,7 @@ const confirmEditBtn = (key) => {
   database.ref().on("child_changed", function (snapshot) {
     console.log(snapshot.val())
   })
-
 };
-
 
 // Remove train data from Firebase Database 
 const removeFirebaseData = (state) => {
@@ -351,7 +358,50 @@ const removeFirebaseData = (state) => {
 };
 
 // Update on child_changed 
-// database.ref().on("child_changed", function (childSnapshot) {
-//   console.log(childSnapshot.val())
+database.ref().on("child_changed", function (childSnapshot) {
+  console.log(childSnapshot.val())
 
-// });
+  console.log(childSnapshot.val().trainName)
+  console.log(childSnapshot.val().destination)
+  console.log(childSnapshot.val().frequency)
+  console.log(childSnapshot.val().firstTrainTime)
+
+
+
+  frequency = childSnapshot.val().frequency;
+  firstTrainTime = childSnapshot.val().firstTrainTime;
+  // Invoke getNextTrainTime function for each train
+  let trainStats = getNextTrainTime(frequency, firstTrainTime);
+  // console.log('trainStat', trainStats)
+  trainName = childSnapshot.val().trainName
+
+  // Create Edit button
+  let editButton = $("<button>")
+  editButton.attr("data-train", trainName)
+  editButton.addClass("edit-btn");
+  editButton.text("✓");
+  // Create Delete button
+  let deleteButton = $("<button>")
+  deleteButton.attr("data-train", trainName)
+  deleteButton.addClass("delete-btn");
+  deleteButton.text("X");
+
+
+  // Populate HTML train table
+  let newRow = $("<tr>")
+  newRow.attr("data-train", trainName)
+  $(newRow).append(
+    $("<td>").text(trainName),
+    $("<td>").text(childSnapshot.val().destination),
+    $("<td>").text(childSnapshot.val().frequency),
+    $("<td>").text(trainStats[1]),
+    $("<td>").text(trainStats[0]),
+  );
+  $(newRow).append(editButton)
+  $(newRow).append(deleteButton)
+  // Append the new row to the table
+  $("#train-table > tbody").append(newRow);
+
+});
+
+

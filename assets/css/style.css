@@ -2,6 +2,10 @@
   margin: 50px;
 }
 
+/* body {
+  background: url('../images/binding_light.png');
+} */
+
 .delete-btn {
   background-color: rgb(199, 23, 23);
   color: white;
@@ -16,15 +20,18 @@
   border-radius: 6px;
 }
 
+.jumbotron {}
+
 .header-container {
   padding-top: .75rem !important;
   padding-bottom: .2rem !important;
   text-align: center !important;
-  width: 1000px;
   margin: auto;
   background-color: #557A95 !important;
   color: white !important;
   font-family: 'Raleway', sans-serif;
+  margin-left: 100px;
+  margin-right: 100px;
 }
 
 .header-title {
@@ -34,10 +41,11 @@
 .counter {
   color: rgb(90, 77, 77);
   text-align: center;
-  width: 400px;
-  margin-left: 550px;
+  width: 35%;
+  /* margin-left: 550px; */
   background-color: white;
   font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
 }
 
 .card-header,

@@ -278,12 +278,14 @@ $(document).on("click", ".edit-btn", function (event) {
         $("#destination-input").val(destinationEdit)
         $("#time-input").val(firstTrainTimeEdit)
         $("#frequency-input").val(frequencyEdit)
+
+        // Invoke confirmEditBtn function
+        console.log('####confirm edit button', key)
+        confirmEditBtn(key)
       }
     });
   });
-  // Invoke confirmEditBtn function
-  console.log('####confirm edit button', key)
-  confirmEditBtn(key)
+
 });
 
 // on-click event Confirm Edit Button function
@@ -307,16 +309,16 @@ const confirmEditBtn = (key) => {
       frequencyEdit
     )
 
-    database.ref(`${key}`).update({
+    return database.ref(`${key}`).update({
       trainName: trainNameEdit,
       destination: destinationEdit,
       firstTrainTime: firstTrainTimeEdit,
       frequency: frequencyEdit
     })
 
-    database.ref().on("child_changed", function (snapshot) {
+    /* database.ref().on("child_changed", function (snapshot) {
       console.log(snapshot.val())
-    })
+    }) */
   })
 
   // Hide submit button

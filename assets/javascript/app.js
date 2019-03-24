@@ -240,31 +240,25 @@ $(document).on("click", ".delete-btn", function (event) {
 
   // Remove train from Firebase database function
   removeFirebaseData(state)
-  // database.ref().on("value", function (snapshot) {
-  //   // Get Key Reference for trainName to remove
-  //   snapshot.forEach((childSnapshot) => {
-  //     let key = childSnapshot.key;
-  //     let childData = childSnapshot.val();
-  //     if (childData.trainName === state) {
-  //       console.log(`key of train being deleted: ${key}`)
-  //       // Firbase remove method - delete train from Firebase database
-  //       database.ref(`${key}`).remove()
-  //     }
-  //   });
-  // });
 });
 
 $(document).on("click", ".edit-btn", function (event) {
+  // Hide submit button
+  $("#submit-btn").hide()
+  // Show edit buttons
+  $("#confirm-edit-btn").show()
   event.preventDefault();
   console.log("click edit");
   let state = $(this).attr("data-train")
   console.log(state)
+  let key;
 
   // Get train schedule info from Firebase
   database.ref().on("value", function (snapshot) {
     // Get Key Reference for trainName to remove
+    console.log('edit click snapshot', snapshot.key)
     snapshot.forEach((childSnapshot) => {
-      let key = childSnapshot.key;
+      key = childSnapshot.key;
       let childData = childSnapshot.val();
       if (childData.trainName === state) {
         console.log(`key of train being edited: ${key}`)
@@ -287,48 +281,50 @@ $(document).on("click", ".edit-btn", function (event) {
       }
     });
   });
-  // Hide submit button
-  $("#submit-btn").hide()
-  // Show edit buttons
-  $("#confirm-edit-btn").show()
   // Invoke confirmEditBtn function
-  confirmEditBtn(state)
+  console.log('####confirm edit button', key)
+  confirmEditBtn(key)
 });
 
 // on-click event Confirm Edit Button function
-const confirmEditBtn = (state) => {
-  console.log('update state', state)
-  $(document).on("click", "#confirm-edit-btn", function (event) {
-    event.preventDefault();
-    console.log('click confirm edit button')
+const confirmEditBtn = (key) => {
+  $("#confirm-edit-btn").show();
+  $("#confirm-edit-btn").on("click", function (event) {
+    event.preventDefault()
 
-    // Update Firebase database
-    // Get train schedule info from Firebase
-    database.ref().on("value", function (snapshot) {
-      console.log(snapshot.val())
-      snapshot.forEach((childSnapshot) => {
-        let key = childSnapshot.key;
-        console.log('update-key', key)
-        console.log(childSnapshot.val().trainName)
-        let childData = childSnapshot.val()
-        if (childData.trainName === state) {
-          // Update Firebase database
-          database.ref(`${key}`).update({
-            trainName: trainNameEdit,
-            destination: destinationEdit,
-            firstTrainTime: firstTrainTimeEdit,
-            frequency: frequencyEdit
-          })
-        };
-      })
-      removeFirebaseData(state)
+    console.log('confirm edit update key', key)
+
+    // Get edited values
+    trainNameEdit = $("#train-input").val().trim();
+    destinationEdit = $("#destination-input").val().trim();
+    firstTrainTimeEdit = $("#time-input").val().trim();
+    frequencyEdit = $("#frequency-input").val().trim();
+
+    console.log(
+      trainNameEdit,
+      destinationEdit,
+      firstTrainTimeEdit,
+      frequencyEdit
+    )
+
+    database.ref(`${key}`).update({
+      trainName: trainNameEdit,
+      destination: destinationEdit,
+      firstTrainTime: firstTrainTimeEdit,
+      frequency: frequencyEdit
     })
-    // Hide submit button
-    $("#confirm-edit-btn").hide()
-    // Show edit buttons
-    $("#submit-btn").show()
+
+    database.ref().on("child_changed", function (snapshot) {
+      console.log(snapshot.val())
+    })
   })
+
+  // Hide submit button
+  // $("#confirm-edit-btn").hide()
+  // Show edit buttons
+  // $("#submit-btn").show()
 };
+
 
 // Remove train data from Firebase Database 
 const removeFirebaseData = (state) => {

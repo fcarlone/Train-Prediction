@@ -336,9 +336,6 @@ const confirmEditBtn = (key) => {
     $("#time-input").val(" ");
     $("#frequency-input").val(" ");
   })
-  database.ref().on("child_changed", function (snapshot) {
-    console.log(snapshot.val())
-  })
 };
 
 // Remove train data from Firebase Database 
@@ -365,8 +362,6 @@ database.ref().on("child_changed", function (childSnapshot) {
   console.log(childSnapshot.val().destination)
   console.log(childSnapshot.val().frequency)
   console.log(childSnapshot.val().firstTrainTime)
-
-
 
   frequency = childSnapshot.val().frequency;
   firstTrainTime = childSnapshot.val().firstTrainTime;

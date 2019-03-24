@@ -5,24 +5,46 @@
 .delete-btn {
   background-color: rgb(199, 23, 23);
   color: white;
-  margin-left: 20px;
+  margin-left: 15px;
+  border-radius: 6px;
 }
 
 .edit-btn {
   background-color: green;
   color: white;
   margin-left: 7px;
+  border-radius: 6px;
 }
 
 .jumbotron {
   padding-top: .75rem !important;
   padding-bottom: .2rem !important;
   text-align: center !important;
+  width: 1000px;
+  margin: auto;
+  background-color: #557A95 !important;
+  color: white !important;
 }
 
 .counter {
   color: rgb(90, 77, 77);
-  text-align: right;
+  text-align: center;
+  width: 400px;
+  margin-left: 550px;
+  background-color: white;
+}
+
+.card-header,
+.card-body {
+  font-size: .9rem;
+}
+
+form {
+  border: lightgray solid 3px;
+  font-size: .8rem;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding: 20px;
 }
 
 .validateMessage1,

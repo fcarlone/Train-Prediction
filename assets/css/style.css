@@ -2,9 +2,9 @@
   margin: 50px;
 }
 
-/* body {
+body {
   background: url('../images/binding_light.png');
-} */
+}
 
 .delete-btn {
   background-color: rgb(199, 23, 23);
@@ -19,8 +19,6 @@
   margin-left: 7px;
   border-radius: 6px;
 }
-
-.jumbotron {}
 
 .header-container {
   padding-top: .75rem !important;
@@ -54,9 +52,21 @@
   font-family: 'Heebo', sans-serif;
 }
 
+.card {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
 .card-header {
   font-weight: bolder;
-  font-size: 1.1rem
+  font-size: 1.1rem;
+  background-color: rgb(249, 251, 252) !important;
+}
+
+.form-title {
+  font-weight: bolder;
+  font-size: 1.1rem;
+  font-family: 'Heebo', sans-serif;
 }
 
 form {
@@ -65,6 +75,7 @@ form {
   margin-left: 50px;
   margin-right: 50px;
   padding: 20px;
+  background-color: rgb(249, 251, 252);
 }
 
 .validateMessage1,

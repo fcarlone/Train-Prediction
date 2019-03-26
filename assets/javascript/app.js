@@ -166,7 +166,7 @@ database.ref().on("child_added", function (childSnapshot) {
 
 
   // Populate HTML train table
-  let newRow = $("<tr>")
+  let newRow = $(`<tr>`)
   newRow.attr("data-train", trainName)
   $(newRow).append(
     $("<td>").text(trainName),
@@ -218,7 +218,7 @@ const trainInterval = setInterval(function () {
       deleteButton.text("X");
 
       // Populate HTML train table
-      let newRow = $("<tr>")
+      let newRow = $(`<tr>`)
       newRow.attr("data-train", trainName)
       $(newRow).append(
         $("<td>").text(trainName),
@@ -315,9 +315,10 @@ const confirmEditBtn = (key) => {
     console.log('oldAttribute', oldAttribute)
 
     // remove orginal edited row form HTML
-    // let test = $('[data-train="oldAttribute"]')
-    $('td[data-train="oldAttribute"]').remove()
-    // console.log('test', test)
+    let test = $('#train-table tr[data-train="' + oldAttribute + '"]')
+    $("tr[data-train='oldAttribute']").remove()
+    // $('#tableid tr[data-id="' + theRowId + '"]').remove();
+    $('tr[data-train="' + oldAttribute + '"]').remove()
 
     // Get edited values
     trainNameEdit = $("#train-input").val().trim();

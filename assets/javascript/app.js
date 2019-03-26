@@ -106,11 +106,9 @@ $("#submit-btn").on("click", function (event) {
   }, 1000);
 });
 
-
 const getNextTrainTime = (frequency, firstTrainTime) => {
   // Store "Next Arrival" and "Minutes Away" values in an array
   let trainArray = [];
-
   let tFrequency = frequency;
 
   // Push back firstTrainTime back 1 year to make sure it comes before current time
@@ -180,8 +178,6 @@ database.ref().on("child_added", function (childSnapshot) {
   // Append the new row to the table
   $("#train-table > tbody").append(newRow);
 });
-
-
 
 setInterval(function () {
   counter--
@@ -267,22 +263,14 @@ $(document).on("click", ".edit-btn", function (event) {
     scrollTop: $(".form-group").offset().top
   }, 1000);
 
-
   // Get train schedule info from Firebase
   database.ref().on("value", function (snapshot) {
     // Get Key Reference for trainName to remove
-    console.log('edit click snapshot', snapshot.key)
     snapshot.forEach((childSnapshot) => {
       key = childSnapshot.key;
       let childData = childSnapshot.val();
       if (childData.trainName === state) {
-        console.log(`key of train being edited: ${key}`)
         // train data from Firebase database
-        console.log(childSnapshot.val().trainName)
-        console.log(childSnapshot.val().destination)
-        console.log(childSnapshot.val().firstTrainTime)
-        console.log(childSnapshot.val().frequency)
-
         trainNameEdit = childSnapshot.val().trainName
         destinationEdit = childSnapshot.val().destination
         firstTrainTimeEdit = childSnapshot.val().firstTrainTime
@@ -295,14 +283,11 @@ $(document).on("click", ".edit-btn", function (event) {
         $("#frequency-input").val(frequencyEdit)
 
         // Invoke confirmEditBtn function
-        console.log('####confirm edit button', key, state)
         confirmEditBtn(key)
-        oldAttribute = state
-
+        oldAttribute = state;
       }
     });
   });
-
 });
 
 // on-click event Confirm Edit Button function
@@ -325,12 +310,12 @@ const confirmEditBtn = (key) => {
     firstTrainTimeEdit = $("#time-input").val().trim();
     frequencyEdit = $("#frequency-input").val().trim();
 
-    console.log(
-      trainNameEdit,
-      destinationEdit,
-      firstTrainTimeEdit,
-      frequencyEdit
-    )
+    // console.log(
+    //   trainNameEdit,
+    //   destinationEdit,
+    //   firstTrainTimeEdit,
+    //   frequencyEdit
+    // )
 
     database.ref(`${key}`).update({
       trainName: trainNameEdit,
@@ -360,7 +345,6 @@ const removeFirebaseData = (state) => {
       let key = childSnapshot.key;
       let childData = childSnapshot.val();
       if (childData.trainName === state) {
-        console.log(`key of train being deleted: ${key}`)
         // Firbase remove method - delete train from Firebase database
         database.ref(`${key}`).remove()
       }
@@ -370,12 +354,6 @@ const removeFirebaseData = (state) => {
 
 // Update on child_changed 
 database.ref().on("child_changed", function (childSnapshot) {
-  console.log(childSnapshot.val())
-
-  console.log(childSnapshot.val().trainName)
-  console.log(childSnapshot.val().destination)
-  console.log(childSnapshot.val().frequency)
-  console.log(childSnapshot.val().firstTrainTime)
 
   frequency = childSnapshot.val().frequency;
   firstTrainTime = childSnapshot.val().firstTrainTime;
@@ -395,7 +373,6 @@ database.ref().on("child_changed", function (childSnapshot) {
   deleteButton.addClass("delete-btn");
   deleteButton.text("X");
 
-
   // Populate HTML train table
   let newRow = $("<tr>")
   newRow.attr("data-train", trainName)
@@ -410,7 +387,6 @@ database.ref().on("child_changed", function (childSnapshot) {
   $(newRow).append(deleteButton)
   // Append the new row to the table
   $("#train-table > tbody").append(newRow);
-
 });
 
 

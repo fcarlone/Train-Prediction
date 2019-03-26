@@ -315,8 +315,9 @@ const confirmEditBtn = (key) => {
     console.log('oldAttribute', oldAttribute)
 
     // remove original edited row form HTML
+    // $("tr[data-train='oldAttribute']").remove()
     // $('#tableid tr[data-id="' + theRowId + '"]').remove();
-    $('tr[data-train="' + oldAttribute + '"]').remove()
+    $('#train-table tr[data-train="' + oldAttribute + '"]').remove()
 
     // Get edited values
     trainNameEdit = $("#train-input").val().trim();

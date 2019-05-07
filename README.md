@@ -7,7 +7,7 @@ The application allows the user to view, add, edit and delete train schedules. T
 **Software/libraries used for this application:**  
 JavaScript - for the applications logic Firebase - database to store train information  
 jQuery - for HTML/DOM manipulation  
-Bootstrap - for making application responsive  
+Bootstrap - for making the application responsive  
 CSS - for styling the application  
 Moment - to parse, validate, manipulate, and display dates and times in JavaScript  
 
